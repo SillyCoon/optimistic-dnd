@@ -10,14 +10,13 @@ let itemsDb: { id: string; text: string }[] = [
 const updateDndOrder = async (newOrder: { id: string; text: string }[]) => {
   "use server";
   // Simulate a server request with a delay
-  return new Promise<void>((resolve) => {
+  await new Promise<void>((resolve) => {
     setTimeout(() => {
       itemsDb = newOrder;
       resolve();
     }, 1000);
-  }).then(() => {
-    revalidatePath("/");
   });
+  revalidatePath("/");
 };
 
 const getItems = async () => {
