@@ -15,7 +15,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import styles from "./index.module.css";
-import { useId } from "react";
+import { useId, useOptimistic, useTransition } from "react";
 
 export function SortableItem(props: { id: string; text: string }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -46,6 +46,9 @@ export const DndExample = ({
   items: { id: string; text: string }[];
   onOrderChange: (newOrder: { id: string; text: string }[]) => void;
 }) => {
+  const [items, setItems] = useOptimistic(defaultItems);
+  const [isPending, startTransition] = useTransition();
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -56,20 +59,23 @@ export const DndExample = ({
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
-    if (active.id !== over?.id) {
-      const oldIndex = defaultItems.findIndex((item) => item.id === active.id);
-      const newIndex = defaultItems.findIndex((item) => item.id === over?.id);
+    startTransition(() => {
+      if (active.id !== over?.id) {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over?.id);
 
-      const newOrder = arrayMove(defaultItems, oldIndex, newIndex);
-      onOrderChange(newOrder);
-    }
+        const newOrder = arrayMove(items, oldIndex, newIndex);
+        setItems(newOrder);
+        onOrderChange(newOrder);
+      }
+    });
   }
 
   return (
     <DndContext id={useId()} onDragEnd={handleDragEnd} sensors={sensors}>
-      <SortableContext items={defaultItems}>
+      <SortableContext items={items}>
         <div>
-          {defaultItems.map(({ id, text }) => (
+          {items.map(({ id, text }) => (
             <SortableItem key={id} id={id} text={text} />
           ))}
         </div>
