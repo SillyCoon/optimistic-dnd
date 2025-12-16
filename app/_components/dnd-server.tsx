@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { DndExample } from "./dnd-example";
 
 let itemsDb: { id: string; text: string }[] = [
@@ -14,6 +15,8 @@ const updateDndOrder = async (newOrder: { id: string; text: string }[]) => {
       itemsDb = newOrder;
       resolve();
     }, 1000);
+  }).then(() => {
+    revalidatePath("/");
   });
 };
 
