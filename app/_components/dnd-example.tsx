@@ -44,7 +44,7 @@ export const DndExample = ({
   onOrderChange,
 }: {
   items: { id: string; text: string }[];
-  onOrderChange: (newOrder: { id: string; text: string }[]) => void;
+  onOrderChange: (newOrder: { id: string; text: string }[]) => Promise<void>;
 }) => {
   const [items, setItems] = useOptimistic(defaultItems);
   const [isPending, startTransition] = useTransition();
@@ -59,14 +59,14 @@ export const DndExample = ({
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
-    startTransition(() => {
+    startTransition(async () => {
       if (active.id !== over?.id) {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over?.id);
 
         const newOrder = arrayMove(items, oldIndex, newIndex);
         setItems(newOrder);
-        onOrderChange(newOrder);
+        await onOrderChange(newOrder);
       }
     });
   }
