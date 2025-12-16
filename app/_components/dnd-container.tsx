@@ -21,7 +21,12 @@ export const DndContainer = () => {
     });
   };
 
-  return <DndExample items={items} onOrderChange={handleOrderChange} />;
+  return (
+    <div>
+      <h1>Drag and Drop Example</h1>
+      <DndExample items={items} onOrderChange={handleOrderChange} />
+    </div>
+  );
 };
 
 export const DndContainerWithError = () => {
