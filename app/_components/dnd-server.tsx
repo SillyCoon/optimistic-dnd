@@ -20,11 +20,21 @@ const updateDndOrder = async (newOrder: { id: string; text: string }[]) => {
   });
 };
 
-export const DndServer = () => {
+const getItems = async () => {
+  "use server";
+  // Simulate a server request with a delay
+  return new Promise<{ id: string; text: string }[]>((resolve) => {
+    setTimeout(() => {
+      resolve(itemsDb);
+    }, 1000);
+  });
+};
+
+export const DndServer = async () => {
   return (
     <div>
       <h1>Server state</h1>
-      <DndExample items={itemsDb} onOrderChange={updateDndOrder} />
+      <DndExample items={await getItems()} onOrderChange={updateDndOrder} />
     </div>
   );
 };
