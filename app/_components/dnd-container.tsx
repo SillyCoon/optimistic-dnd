@@ -9,5 +9,18 @@ export const DndContainer = () => {
     { id: "item-3", text: "Item 3" },
   ]);
 
-  return <DndExample items={items} onOrderChange={setItems} />;
+  const handleOrderChange = async (
+    newOrder: { id: string; text: string }[],
+  ) => {
+    // Simulate a server request with a delay
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        setItems(newOrder);
+        resolve();
+      }, 1000);
+    });
+  };
+
+  return <DndExample items={items} onOrderChange={handleOrderChange} />;
+};
 };
