@@ -85,6 +85,7 @@ export const DndExample = ({
           ))}
         </div>
       </SortableContext>
+      {isPending && <div>Updating order...</div>}
     </DndContext>
   );
 };
