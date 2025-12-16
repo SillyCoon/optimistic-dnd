@@ -23,7 +23,7 @@ export const DndContainer = () => {
 
   return (
     <div>
-      <h1>Drag and Drop Example</h1>
+      <h1>Client State Example</h1>
       <DndExample items={items} onOrderChange={handleOrderChange} />
     </div>
   );
@@ -49,7 +49,7 @@ export const DndContainerWithError = () => {
 
   return (
     <div>
-      <h1>Drag and Drop Example with error</h1>
+      <h1>Client State with failure</h1>
       <DndExample items={items} onOrderChange={handleOrderChange} />
     </div>
   );

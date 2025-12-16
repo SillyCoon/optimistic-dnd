@@ -23,7 +23,7 @@ const updateDndOrder = async (newOrder: { id: string; text: string }[]) => {
 export const DndServer = () => {
   return (
     <div>
-      <h1>Drag and Drop Example with Server Actions</h1>
+      <h1>Server state</h1>
       <DndExample items={itemsDb} onOrderChange={updateDndOrder} />
     </div>
   );
@@ -44,7 +44,7 @@ export const DndServerWithError = () => {
 
   return (
     <div>
-      <h1>Drag and Drop Example with Server Actions and Error</h1>
+      <h1>Server state with failure</h1>
       <DndExample items={itemsDb} onOrderChange={updateDndOrderWithError} />
     </div>
   );
