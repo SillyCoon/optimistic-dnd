@@ -1,11 +1,11 @@
 import styles from "./page.module.css";
-import { DndExample } from "./_components/dnd-example";
+import { DndContainer } from "./_components/dnd-container";
 
 export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <DndExample />
+        <DndContainer />
       </main>
     </div>
   );

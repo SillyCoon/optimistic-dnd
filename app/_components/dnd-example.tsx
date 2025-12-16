@@ -15,7 +15,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import styles from "./index.module.css";
-import { useId, useState } from "react";
+import { useId } from "react";
 
 export function SortableItem(props: { id: string; text: string }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -39,13 +39,13 @@ export function SortableItem(props: { id: string; text: string }) {
   );
 }
 
-export const DndExample = () => {
-  const [items, setItems] = useState([
-    { id: "item-1", text: "Item 1" },
-    { id: "item-2", text: "Item 2" },
-    { id: "item-3", text: "Item 3" },
-  ]);
-
+export const DndExample = ({
+  items: defaultItems,
+  onOrderChange,
+}: {
+  items: { id: string; text: string }[];
+  onOrderChange: (newOrder: { id: string; text: string }[]) => void;
+}) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -57,20 +57,19 @@ export const DndExample = () => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over?.id);
+      const oldIndex = defaultItems.findIndex((item) => item.id === active.id);
+      const newIndex = defaultItems.findIndex((item) => item.id === over?.id);
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      const newOrder = arrayMove(defaultItems, oldIndex, newIndex);
+      onOrderChange(newOrder);
     }
   }
 
   return (
     <DndContext id={useId()} onDragEnd={handleDragEnd} sensors={sensors}>
-      <SortableContext items={items}>
+      <SortableContext items={defaultItems}>
         <div>
-          {items.map(({ id, text }) => (
+          {defaultItems.map(({ id, text }) => (
             <SortableItem key={id} id={id} text={text} />
           ))}
         </div>
