@@ -28,3 +28,24 @@ export const DndServer = () => {
     </div>
   );
 };
+
+export const DndServerWithError = () => {
+  const updateDndOrderWithError = async (
+    _newOrder: { id: string; text: string }[],
+  ) => {
+    "use server";
+    // Simulate a server request with a delay that fails
+    return new Promise<void>((_resolve, reject) => {
+      setTimeout(() => {
+        reject();
+      }, 1000);
+    });
+  };
+
+  return (
+    <div>
+      <h1>Drag and Drop Example with Server Actions and Error</h1>
+      <DndExample items={itemsDb} onOrderChange={updateDndOrderWithError} />
+    </div>
+  );
+};

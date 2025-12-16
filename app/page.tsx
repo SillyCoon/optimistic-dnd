@@ -3,7 +3,7 @@ import {
   DndContainer,
   DndContainerWithError,
 } from "./_components/dnd-container";
-import { DndServer } from "./_components/dnd-server";
+import { DndServer, DndServerWithError } from "./_components/dnd-server";
 
 export default function Home() {
   return (
@@ -12,6 +12,7 @@ export default function Home() {
         <DndContainer />
         <DndContainerWithError />
         <DndServer />
+        <DndServerWithError />
       </main>
     </div>
   );
