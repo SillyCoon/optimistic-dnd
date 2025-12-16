@@ -1,0 +1,9 @@
+.item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  width: 500px;
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+}
