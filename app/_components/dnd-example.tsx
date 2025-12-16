@@ -60,13 +60,18 @@ export const DndExample = ({
     const { active, over } = event;
 
     startTransition(async () => {
-      if (active.id !== over?.id) {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over?.id);
+      try {
+        if (active.id !== over?.id) {
+          const oldIndex = items.findIndex((item) => item.id === active.id);
+          const newIndex = items.findIndex((item) => item.id === over?.id);
 
-        const newOrder = arrayMove(items, oldIndex, newIndex);
-        setItems(newOrder);
-        await onOrderChange(newOrder);
+          const newOrder = arrayMove(items, oldIndex, newIndex);
+          setItems(newOrder);
+          await onOrderChange(newOrder);
+        }
+      } catch {
+        // NOTE: revert is handled by useOptimistic automatically
+        console.error("Failed to update item order");
       }
     });
   }
