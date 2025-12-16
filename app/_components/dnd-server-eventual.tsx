@@ -26,9 +26,8 @@ const updateDndOrder = async (newOrder: { id: string; text: string }[]) => {
 export const DndServerWithEventualConsistency = () => {
   return (
     <div>
-      <h1>
-        Server state with eventual consistency (reverts update after delay)
-      </h1>
+      <h1>Server state with eventual consistency</h1>
+      <h3>Could not be solved with useOptimistic alone</h3>
       <DndExample items={itemsDb} onOrderChange={updateDndOrder} />
     </div>
   );
