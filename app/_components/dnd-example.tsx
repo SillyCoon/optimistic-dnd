@@ -15,7 +15,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import styles from "./index.module.css";
-import { useId, useOptimistic, useTransition } from "react";
+import { useId, useOptimistic, useState, useTransition } from "react";
 
 export function SortableItem(props: { id: string; text: string }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -46,7 +46,8 @@ export const DndExample = ({
   items: { id: string; text: string }[];
   onOrderChange: (newOrder: { id: string; text: string }[]) => Promise<void>;
 }) => {
-  const [items, setItems] = useOptimistic(defaultItems);
+  const [backupState, setBackupState] = useState(defaultItems);
+  const [items, setItems] = useOptimistic(backupState);
   const [isPending, startTransition] = useTransition();
 
   const sensors = useSensors(
@@ -68,6 +69,7 @@ export const DndExample = ({
           const newOrder = arrayMove(items, oldIndex, newIndex);
           setItems(newOrder);
           await onOrderChange(newOrder);
+          setBackupState(newOrder);
         }
       } catch {
         // NOTE: revert is handled by useOptimistic automatically
